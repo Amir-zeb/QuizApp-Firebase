@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Quiz App</title>
+    <link rel="shortcut icon" href="#" />
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyD6HhLCZjwGWUXHQwIr4mKifGPpGtSrLpU",
+        authDomain: "quiz-app-c59ac.firebaseapp.com",
+        databaseURL: "https://quiz-app-c59ac.firebaseio.com",
+        projectId: "quiz-app-c59ac",
+        storageBucket: "quiz-app-c59ac.appspot.com",
+        messagingSenderId: "650444840759",
+        appId: "1:650444840759:web:93073d9540c9d8ef2d04b2",
+        measurementId: "G-QBS67VDFPJ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    </script>
+</head>
+<body id="quizApp">
+    <div class="main" id="main">
+        <div id="header">
+            <div class="col-md-6 col-sm-12 float-left p-0" id="qNum-div">
+    
+            </div>
+            <div class="col-md-6 col-sm-12 float-right p-0" id="timer-div">
+    
+            </div>
+        </div>
+        <div id="content">
+            <p id="q-para"></p>
+            <div id="opt-div"></div>
+        </div>
+        <div class="footer">
+            <button class="btn btn-primary" style="float: right;" onclick="next()" id="nxt">Next</button>
+        </div>
+    </div>
+    
+    
+    <script src="app.js"></script>
+
+</body>
+</html>

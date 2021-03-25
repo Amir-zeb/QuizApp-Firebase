@@ -1,0 +1,27 @@
+.active{
+    width: 100%;
+    padding: 5px;
+}
+.active:hover{
+    background-color: rgb(186, 186, 190);
+}
+#quiz-time-left{
+    text-align: end;
+}
+#timer-div{
+    text-align: end;
+}
+.main{
+    width: 50%;
+    margin: 10px auto 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+    border:1px solid black;
+    background-color: rgb(255, 235, 205);
+}
+#header{
+    padding-bottom: 50px;
+}
+body{
+    background-color: rgba(45, 119, 255, 0.274);
+}

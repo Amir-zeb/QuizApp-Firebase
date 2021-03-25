@@ -1,0 +1,267 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizApp</title>
+
+  <link rel="shortcut icon" href="#" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD6HhLCZjwGWUXHQwIr4mKifGPpGtSrLpU",
+      authDomain: "quiz-app-c59ac.firebaseapp.com",
+      databaseURL: "https://quiz-app-c59ac.firebaseio.com",
+      projectId: "quiz-app-c59ac",
+      storageBucket: "quiz-app-c59ac.appspot.com",
+      messagingSenderId: "650444840759",
+      appId: "1:650444840759:web:93073d9540c9d8ef2d04b2",
+      measurementId: "G-QBS67VDFPJ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: "Lato", sans-serif;
+      height: 100%;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      padding: 3px;
+    }
+
+    a:hover {
+      color: black;
+      text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.342);
+    }
+
+    #result-sec tr td {
+      text-align: center;
+    }
+
+    #loader {
+      border: 16px solid #f3f3f3;
+      /* Light grey */
+      border-top: 16px solid #3498db;
+      /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="container-fluid">
+    <div class="row">
+      <div class="col-12  bg-dark">
+        <div class="w-100 p-2" style="display: inline-flex;">
+          <div class="mr-2">
+            <img src="img/pro.png" width="50" height="50" alt="profile_pic">
+          </div>
+          <div class="pt-1">
+            <span id="display-name" class="text-white"></span><br>
+            <span id="display-email" class="text-white"></span>
+          </div>
+          <span style="cursor:pointer; margin: auto 0px auto auto; color: white;" onclick="logOut()">LogOut</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <article style="height: 100%;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 col-sm-12 bg-primary">
+          <ul class="pt-2">
+            <li>
+              <a href="index.html" class="nav-link active bg-secondary">Home</a>
+            </li>
+            <li>
+              <a href="quizApp.html" class="nav-link">Start Quiz</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-10 col-sm-12"   style="height: 100vh;">
+          <h1>Welcome To Quiz App</h1>
+  
+          <div class='container-fluid'>
+            <div class="row pb-3">
+              <div class="col-sm-12 col-md-12 ">Previous Result</div>
+            </div>
+            <div class="row">
+              <div id="loader" style="margin: auto;">&nbsp;</div>
+              <div class="col-12 table-responsive">
+                <table class="table table-hover table-striped">
+                  <tbody id="result-sec"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+
+  <footer class="container-fluid bg-dark text-muted fixed-bottom">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer text-center">
+          <p>© Copyright 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- <script src="app.js"></script> -->
+<script src="state.js"></script>
+
+<script>
+
+
+
+  (function () {
+    var result_sec = document.getElementById('result-sec')
+    var flag = false
+    var userid = localStorage.getItem('uid')
+
+    setTimeout(() => {
+      if (flag === false) {
+        document.getElementById("loader").remove()
+        result_sec.innerHTML = "No Result Found"
+      }
+    }, 4000);
+
+    var leadsRef = firebase.database().ref('Users').child(userid).child("result");
+
+    leadsRef.on('value', function (snapshot) {
+      flag = true
+      snapshot.forEach(function (childSnapshot) {
+        var childData = childSnapshot.val();
+
+        var tr = document.createElement("tr")
+        result_sec.appendChild(tr)
+
+        //score print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Scores")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.score+"/70")
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        //correct print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Correct Answers")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.correctans)
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        //wrong print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Wrong Answers")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.wrongans)
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        //att print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Attempted Questions")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.attempt)
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        //unattempt print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Unattempted Questions")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.unattempt)
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        //Date print
+        var td = document.createElement("td")
+        var tdtxt1 = document.createTextNode("Date")
+        var br = document.createElement("br")
+        var tdtxt2 = document.createTextNode(childData.date)
+        td.appendChild(tdtxt1)
+        td.appendChild(br)
+        td.appendChild(tdtxt2)
+        tr.appendChild(td)
+
+        if(document.getElementById("loader")!=null){
+          document.getElementById("loader").remove()
+        }
+      });
+    });
+
+  })()
+
+</script>
+
+
+
+
+</html>

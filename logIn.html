@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In</title>
+ 
+  <link rel="shortcut icon" href="#" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <script>
+        var firebaseConfig = {
+        apiKey: "AIzaSyD6HhLCZjwGWUXHQwIr4mKifGPpGtSrLpU",
+        authDomain: "quiz-app-c59ac.firebaseapp.com",
+        databaseURL: "https://quiz-app-c59ac.firebaseio.com",
+        projectId: "quiz-app-c59ac",
+        storageBucket: "quiz-app-c59ac.appspot.com",
+        messagingSenderId: "650444840759",
+        appId: "1:650444840759:web:93073d9540c9d8ef2d04b2",
+        measurementId: "G-QBS67VDFPJ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    alert("For Quick Access use \nEmail : amir@mail.com\nPassword : 123456")
+  </script>
+<style>
+  #loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  margin: auto;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+
+  <div id="firebaseui-auth-container"></div>
+  <div id="loader"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script src="auth.js"></script>
+  
+</body>
+
+</html>
